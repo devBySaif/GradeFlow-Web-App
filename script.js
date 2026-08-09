@@ -287,6 +287,82 @@ function calculateCGPA() {
     saveData();
 }
 
+function calculateTargetCGPA() {
+    const currentCGPA = parseFloat(document.getElementById("targetCurrentCGPA").value);
+    const completedCredits = Number(document.getElementById("targetCompletedCredits").value);
+    const remainingCredits = Number(document.getElementById("targetRemainingCredits").value);
+    const targetCGPA = parseFloat(document.getElementById("targetFinalCGPA").value);
+    const result = document.getElementById("targetRequiredGPA");
+    const status = document.getElementById("targetStatus");
+
+    status.className = "";
+
+    if (
+        isNaN(currentCGPA) ||
+        isNaN(completedCredits) ||
+        isNaN(remainingCredits) ||
+        isNaN(targetCGPA)
+    ) {
+        result.textContent = "0.00";
+        status.textContent = "Please fill all Target CGPA fields.";
+        status.classList.add("warning");
+        return;
+    }
+
+    if (currentCGPA < 0 || currentCGPA > 4 || targetCGPA < 0 || targetCGPA > 4) {
+        result.textContent = "0.00";
+        status.textContent = "CGPA values must be between 0.00 and 4.00.";
+        status.classList.add("warning");
+        return;
+    }
+
+    if (
+        completedCredits <= 0 ||
+        remainingCredits <= 0 ||
+        !Number.isInteger(completedCredits) ||
+        !Number.isInteger(remainingCredits)
+    ) {
+        result.textContent = "0.00";
+        status.textContent = "Completed and remaining credits must be whole numbers greater than 0.";
+        status.classList.add("warning");
+        return;
+    }
+
+    const totalCredits = completedCredits + remainingCredits;
+    const currentGradePoints = currentCGPA * completedCredits;
+    const targetGradePoints = targetCGPA * totalCredits;
+    const requiredGPA = (targetGradePoints - currentGradePoints) / remainingCredits;
+
+    result.textContent = requiredGPA.toFixed(2);
+
+    if (requiredGPA > 4) {
+        status.textContent = `You need ${requiredGPA.toFixed(2)} GPA on remaining credits, which is above 4.00. This target is not reachable with the current credit plan.`;
+        status.classList.add("warning");
+        return;
+    }
+
+    if (requiredGPA < 0) {
+        status.textContent = "Your current CGPA is already above the selected final target.";
+        status.classList.add("success");
+        return;
+    }
+
+    status.textContent = `You need an average ${requiredGPA.toFixed(2)} GGPA across your remaining ${remainingCredits} credits.`;
+    status.classList.add("success");
+}
+
+function resetTargetCGPA() {
+    document.getElementById("targetCurrentCGPA").value = "";
+    document.getElementById("targetCompletedCredits").value = "";
+    document.getElementById("targetRemainingCredits").value = "";
+    document.getElementById("targetFinalCGPA").value = "";
+    document.getElementById("targetRequiredGPA").textContent = "0.00";
+
+    const status = document.getElementById("targetStatus");
+    status.className = "";
+    status.textContent = "Enter your academic record to calculate your required GPA.";
+}
+
 function getStanding(cgpa) {
     if (cgpa >= 3.95) return "Summa";
     if (cgpa >= 3.80) return "Magna";
@@ -379,35 +455,24 @@ function saveData() {
 }
 
 function loadData() {
-    const saved = localStorage.getItem("cgpaCalculatorData");
+    localStorage.removeItem("cgpaCalculatorData");
 
-    if (!saved) {
-        addCourse();
-        selectUniversity(selectedUniversity);
-        return;
-    }
+    selectedUniversity = "AIUB";
+    courseCount = 0;
 
-    try {
-        const data = JSON.parse(saved);
+    document.getElementById("courseList").innerHTML = "";
+    document.getElementById("previousCGPA").value = "";
+    document.getElementById("previousCredits").value = "";
+    document.getElementById("cgpaResult").textContent = "0.00";
+    document.getElementById("semesterGPA").textContent = "0.00";
+    document.getElementById("totalCredits").textContent = "0.00";
+    document.getElementById("totalPoints").textContent = "0.00";
+    document.getElementById("standing").textContent = "—";
+    document.getElementById("progress").style.width = "0%";
 
-        selectedUniversity = data.selectedUniversity || selectedUniversity;
-        document.getElementById('status').textContent = `Selected ${selectedUniversity}: CGPA will be calculated using ${selectedUniversity} grade points.`;
-        selectUniversity(selectedUniversity);
-
-        document.getElementById("previousCGPA").value = data.previousCGPA || "";
-        document.getElementById("previousCredits").value = sanitizeWholeNumber(data.previousCredits || "");
-
-        if (data.courses && data.courses.length) {
-            data.courses.forEach(course => {
-                addCourse(course.name, course.credit, course.grade);
-            });
-        } else {
-            addCourse();
-        }
-    } catch (error) {
-        addCourse();
-        selectUniversity(selectedUniversity);
-    }
+    addCourse();
+    selectUniversity(selectedUniversity);
+    document.getElementById("status").innerHTML = 'Add your courses and click <b>Calculate CGPA</b>.';
 }
 
 document.addEventListener("input", function() {
@@ -503,6 +568,22 @@ document.addEventListener("keydown", moveCalculatorFocus);
 
 document.getElementById("previousCredits").addEventListener("input", function() {
     this.value = sanitizeWholeNumber(this.value);
+});
+
+document.querySelectorAll("#targetCompletedCredits, #targetRemainingCredits").forEach(input => {
+    input.addEventListener("input", function() {
+        this.value = sanitizeWholeNumber(this.value);
+    });
+});
+
+document.querySelectorAll("nav a").forEach(link => {
+    link.addEventListener("click", function() {
+        document.querySelectorAll("nav a").forEach(navLink => {
+            navLink.classList.remove("active");
+        });
+
+        this.classList.add("active");
+    });
 });
 
 function scrollToCalculator() {

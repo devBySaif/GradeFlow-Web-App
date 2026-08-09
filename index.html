@@ -32,14 +32,14 @@
         </div>
 
         <span>
-            Grade<span class="logo-highlight">Flow</span>
+            GradeFlow
         </span>
 
     </div>
 
     <nav>
 
-        <a href="#" class="active">
+        <a href="#calculator" class="active">
             Calculator
         </a>
 
@@ -52,13 +52,6 @@
         </a>
 
     </nav>
-
-    <button
-        class="nav-btn"
-        onclick="scrollToCalculator()"
-    >
-        Calculate
-    </button>
 
 </header>
 
@@ -114,12 +107,8 @@
                 <div>
 
                     <h2>
-                        Current Semester Courses
+                        Calculate Overall CGPA
                     </h2>
-
-                    <p>
-                        Add your current semester courses.
-                    </p>
 
                 </div>
 
@@ -164,10 +153,14 @@
                 </div>
 
                 <p class="help-text">
-                    Leave both fields empty if this is your first semester.
+                    Leave both fields empty if you want to calculate only current semester CGPA.
                 </p>
 
             </div>
+
+            <h3 class="course-section-title">
+                Calculate Current Semester CGPA
+            </h3>
 
             <!-- Course Header -->
 
@@ -363,6 +356,134 @@
     </div>
 
     <!-- ===================================================
+         TARGET CGPA
+    =================================================== -->
+
+    <section class="card target-card" id="target">
+
+        <div class="target-header">
+
+            <div>
+
+                <h3>
+                  Calculate  Target CGPA
+                </h3>
+
+                <p>
+                    Find the average GPA you need in your remaining credits.
+                </p>
+
+            </div>
+
+            <div class="target-result">
+                <span>
+                    Required CGPA
+                </span>
+
+                <strong id="targetRequiredGPA">
+                    0.00
+                </strong>
+            </div>
+
+        </div>
+
+        <div class="target-grid">
+
+            <div class="input-group">
+
+                <label>
+                    Current CGPA
+                </label>
+
+                <input
+                    type="number"
+                    id="targetCurrentCGPA"
+                    min="0"
+                    max="4"
+                    step="0.01"
+                    placeholder="e.g. 3.52"
+                >
+
+            </div>
+
+            <div class="input-group">
+
+                <label>
+                    Completed Credits
+                </label>
+
+                <input
+                    type="number"
+                    id="targetCompletedCredits"
+                    min="0"
+                    step="1"
+                    inputmode="numeric"
+                    placeholder="e.g. 60"
+                >
+
+            </div>
+
+            <div class="input-group">
+
+                <label>
+                    Remaining Credits
+                </label>
+
+                <input
+                    type="number"
+                    id="targetRemainingCredits"
+                    min="1"
+                    step="1"
+                    inputmode="numeric"
+                    placeholder="e.g. 70"
+                >
+
+            </div>
+
+            <div class="input-group">
+
+                <label>
+                    Target Final CGPA
+                </label>
+
+                <input
+                    type="number"
+                    id="targetFinalCGPA"
+                    min="0"
+                    max="4"
+                    step="0.01"
+                    placeholder="e.g. 3.70"
+                >
+
+            </div>
+
+        </div>
+
+        <div class="target-actions">
+
+            <p id="targetStatus">
+                Enter your academic record to calculate your required GPA.
+            </p>
+
+            <button
+                class="target-reset-btn"
+                onclick="resetTargetCGPA()"
+            >
+                Reset
+            </button>
+
+            <button
+                class="calculate-btn"
+                onclick="calculateTargetCGPA()"
+            >
+                Calculate Target →
+            </button>
+
+        </div>
+
+    </section>
+
+    <!-- ===================================================
          GRADING REFERENCE
     =================================================== -->
 
@@ -371,13 +492,32 @@
         id="grading"
     >
 
-        <h3>
-            Grading Reference for AIUB, IUB, and NSU
-        </h3>
+        <div class="grading-title">
+            <h3>
+                Grading Reference for AIUB, IUB, and NSU
+            </h3>
+            <div class="grading-logos">
+                <div class="grading-logo-item">
+                    <img src="aiub_whole_logo_1.png" alt="AIUB logo">
+                    <span>AIUB</span>
+                </div>
+                <div class="grading-logo-item">
+                    <img src="iub logo.png" alt="IUB logo">
+                    <span>IUB</span>
+                </div>
+                <div class="grading-logo-item">
+                    <img src="NSUlogo.jpg" alt="NSU logo">
+                    <span>NSU</span>
+                </div>
+            </div>
+        </div>
 
         <div class="grading-grid">
             <div class="grading-panel">
-                <h4>AIUB</h4>
+                <div class="grading-panel-header">
+                    <img src="aiub_whole_logo_1.png" alt="AIUB logo">
+                    <span>AIUB</span>
+                </div>
                 <table class="grading-table">
                     <thead>
                         <tr>
@@ -401,7 +541,10 @@
             </div>
 
             <div class="grading-panel">
-                <h4>IUB</h4>
+                <div class="grading-panel-header">
+                    <img src="iub logo.png" alt="IUB logo">
+                    <span>IUB</span>
+                </div>
                 <table class="grading-table">
                     <thead>
                         <tr>
@@ -427,7 +570,10 @@
             </div>
 
             <div class="grading-panel">
-                <h4>NSU</h4>
+                <div class="grading-panel-header">
+                    <img src="NSUlogo.jpg" alt="NSU logo">
+                    <span>NSU</span>
+                </div>
                 <table class="grading-table">
                     <thead>
                         <tr>
@@ -464,15 +610,30 @@
     >
 
         <h4>
-            AIUB Academic Information
+            University Academic Information
         </h4>
 
-        <p>
-            This calculator uses AIUB's current Grading System V3,
-            applicable from Spring 2016–2017 onwards. AIUB's official
-            grading system uses a 4.00 scale. The official minimum
-            graduation CGPA is 2.50 on a 4.00 scale.
-        </p>
+        <div class="info-grid">
+
+            <p>
+                <strong>AIUB:</strong>
+                Uses a 4.00 scale with AIUB Grading System V3.
+                Minimum graduation CGPA is generally 2.50.
+            </p>
+
+            <p>
+                <strong>NSU:</strong>
+                Uses a 4.00 scale with letter grades such as A, A-, B+, B,
+                and grade points based on the selected grading reference.
+            </p>
+
+            <p>
+                <strong>IUB:</strong>
+                Uses a 4.00 scale with university-specific letter grade
+                points for semester GPA and cumulative CGPA calculation.
+            </p>
+
+        </div>
 
     </section>
 
