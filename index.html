@@ -1,0 +1,496 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AIUB CGPA Calculator</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<!-- =======================================================
+     NAVBAR
+======================================================= -->
+
+<header class="navbar">
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            🎓
+        </div>
+
+        <span>
+            AIUB <span class="logo-highlight">CGPA</span>
+        </span>
+
+    </div>
+
+    <nav>
+
+        <a href="#" class="active">
+            Calculator
+        </a>
+
+        <a href="#grading">
+            Grading
+        </a>
+
+        <a href="#about">
+            About
+        </a>
+
+    </nav>
+
+    <button
+        class="nav-btn"
+        onclick="scrollToCalculator()"
+    >
+        Calculate
+    </button>
+
+</header>
+
+<section class="hero">
+
+    <span class="badge">
+        🎓 AIUB • Grading System V3
+    </span>
+
+    <h1>
+        Calculate Your
+        <span>CGPA</span>
+        Easily.
+    </h1>
+
+    <p>
+        Calculate your semester GPA and cumulative CGPA
+        according to the American International University-Bangladesh
+        grading system.
+    </p>
+
+</section>
+
+<!-- =======================================================
+     MAIN
+======================================================= -->
+
+<main class="container" id="calculator">
+
+    <!-- ===================================================
+         TABS
+    =================================================== -->
+
+    <!-- ===================================================
+         COURSE CALCULATOR
+    =================================================== -->
+
+    <div
+        class="calculator-grid"
+        id="courseMode"
+    >
+        <div class="university-selector">
+            <button class="uni-btn active" id="AIUB-btn" onclick="selectUniversity('AIUB')">AIUB</button>
+            <button class="uni-btn" id="IUB-btn" onclick="selectUniversity('IUB')">IUB</button>
+            <button class="uni-btn" id="NSU-btn" onclick="selectUniversity('NSU')">NSU</button>
+        </div>
+
+        <!-- LEFT -->
+
+        <section class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        Current Semester Courses
+                    </h2>
+
+                    <p>
+                        Add your current semester courses.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- Previous Academic Record -->
+
+            <div class="previous-record">
+
+                <div class="input-group">
+
+                    <label>
+                        Previous CGPA
+                    </label>
+
+                    <input
+                        type="number"
+                        id="previousCGPA"
+                        min="0"
+                        max="4"
+                        step="0.01"
+                        placeholder="e.g. 3.65"
+                    >
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>
+                        Completed Credits
+                    </label>
+
+                    <input
+                        type="number"
+                        id="previousCredits"
+                        min="0"
+                        step="1"
+                        inputmode="numeric"
+                        placeholder="e.g. 45"
+                    >
+
+                </div>
+
+                <p class="help-text">
+                    Leave both fields empty if this is your first semester.
+                </p>
+
+            </div>
+
+            <!-- Course Header -->
+
+            <div class="course-header">
+
+                <span>
+                    Course Name
+                </span>
+
+                <span>
+                    Credit
+                </span>
+
+                <span>
+                    Grade
+                </span>
+
+                <span>
+                    Point
+                </span>
+
+                <span></span>
+
+            </div>
+
+            <!-- Course List -->
+
+            <div id="courseList"></div>
+
+            <!-- Actions -->
+
+            <div class="actions">
+
+                <button
+                    class="add-btn"
+                    onclick="addCourse()"
+                >
+                    + Add Course
+                </button>
+
+                <button
+                    class="reset-btn"
+                    onclick="resetCalculator()"
+                >
+                    Reset
+                </button>
+
+                <button
+                    class="calculate-btn"
+                    onclick="calculateCGPA()"
+                >
+                    Calculate CGPA →
+                </button>
+
+            </div>
+
+        </section>
+
+        <!-- RIGHT -->
+
+        <section>
+
+            <!-- Result -->
+
+            <div class="card result-card">
+
+                <div class="result-top">
+
+                    <div>
+
+                        <span class="result-label">
+                            Cumulative CGPA
+                        </span>
+
+                        <div
+                            class="result-number"
+                            id="cgpaResult"
+                        >
+                            0.00
+                        </div>
+
+                    </div>
+
+                    <div class="result-icon">
+                        ★
+                    </div>
+
+                </div>
+
+                <div class="progress-wrap">
+
+                    <div class="progress-bar">
+
+                        <div
+                            class="progress"
+                            id="progress"
+                        ></div>
+
+                    </div>
+
+                    <div class="progress-info">
+
+                        <span>
+                            0.00
+                        </span>
+
+                        <span>
+                            4.00
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div
+                    class="status"
+                    id="status"
+                >
+                    Add your courses and click
+                    <b>Calculate CGPA</b>.
+                </div>
+
+            </div>
+
+            <!-- Stats -->
+
+            <div class="stats">
+
+                <div class="stat">
+
+                    <span class="stat-title">
+                        Semester GPA
+                    </span>
+
+                    <span
+                        class="stat-value"
+                        id="semesterGPA"
+                    >
+                        0.00
+                    </span>
+
+                </div>
+
+                <div class="stat">
+
+                    <span class="stat-title">
+                        Total Credits
+                    </span>
+
+                    <span
+                        class="stat-value"
+                        id="totalCredits"
+                    >
+                        0.00
+                    </span>
+
+                </div>
+
+                <div class="stat">
+
+                    <span class="stat-title">
+                        Grade Points
+                    </span>
+
+                    <span
+                        class="stat-value"
+                        id="totalPoints"
+                    >
+                        0.00
+                    </span>
+
+                </div>
+
+                <div class="stat">
+
+                    <span class="stat-title">
+                        Academic Standing
+                    </span>
+
+                    <span
+                        class="stat-value"
+                        id="standing"
+                    >
+                        —
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+    <!-- ===================================================
+         GRADING REFERENCE
+    =================================================== -->
+
+    <section
+        class="card grading-card"
+        id="grading"
+    >
+
+        <h3>
+            Grading Reference for AIUB, IUB, and NSU
+        </h3>
+
+        <div class="grading-grid">
+            <div class="grading-panel">
+                <h4>AIUB</h4>
+                <table class="grading-table">
+                    <thead>
+                        <tr>
+                            <th>Marks</th>
+                            <th>Grade</th>
+                            <th>Grade Point</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>90 – 100</td><td class="grade-a">A+</td><td>4.00</td></tr>
+                        <tr><td>85 – <90</td><td class="grade-a">A</td><td>3.75</td></tr>
+                        <tr><td>80 – <85</td><td>B+</td><td>3.50</td></tr>
+                        <tr><td>75 – <80</td><td>B</td><td>3.25</td></tr>
+                        <tr><td>70 – <75</td><td>C+</td><td>3.00</td></tr>
+                        <tr><td>65 – <70</td><td>C</td><td>2.75</td></tr>
+                        <tr><td>60 – <65</td><td>D+</td><td>2.50</td></tr>
+                        <tr><td>50 – <60</td><td>D</td><td>2.25</td></tr>
+                        <tr><td><50</td><td>F</td><td>0.00</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="grading-panel">
+                <h4>IUB</h4>
+                <table class="grading-table">
+                    <thead>
+                        <tr>
+                            <th>Marks</th>
+                            <th>Grade</th>
+                            <th>Grade Point</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>90 – 100</td><td class="grade-a">A</td><td>4.00</td></tr>
+                        <tr><td>85 – &lt;90</td><td class="grade-a">A-</td><td>3.70</td></tr>
+                        <tr><td>80 – &lt;85</td><td>B+</td><td>3.30</td></tr>
+                        <tr><td>75 – &lt;80</td><td>B</td><td>3.00</td></tr>
+                        <tr><td>70 – &lt;75</td><td>B-</td><td>2.70</td></tr>
+                        <tr><td>65 – &lt;70</td><td>C+</td><td>2.30</td></tr>
+                        <tr><td>60 – &lt;65</td><td>C</td><td>2.00</td></tr>
+                        <tr><td>55 – &lt;60</td><td>C-</td><td>1.70</td></tr>
+                        <tr><td>50 – &lt;55</td><td>D+</td><td>1.30</td></tr>
+                        <tr><td>45 – &lt;50</td><td>D</td><td>1.00</td></tr>
+                        <tr><td>&lt;45</td><td>F</td><td>0.00</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="grading-panel">
+                <h4>NSU</h4>
+                <table class="grading-table">
+                    <thead>
+                        <tr>
+                            <th>Marks</th>
+                            <th>Grade</th>
+                            <th>Grade Point</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>90 – 100</td><td class="grade-a">A</td><td>4.00</td></tr>
+                        <tr><td>85 – &lt;90</td><td class="grade-a">A-</td><td>3.70</td></tr>
+                        <tr><td>80 – &lt;85</td><td>B+</td><td>3.30</td></tr>
+                        <tr><td>75 – &lt;80</td><td>B</td><td>3.00</td></tr>
+                        <tr><td>70 – &lt;75</td><td>B-</td><td>2.70</td></tr>
+                        <tr><td>65 – &lt;70</td><td>C+</td><td>2.30</td></tr>
+                        <tr><td>60 – &lt;65</td><td>C</td><td>2.00</td></tr>
+                        <tr><td>55 – &lt;60</td><td>C-</td><td>1.70</td></tr>
+                        <tr><td>50 – &lt;55</td><td>D+</td><td>1.30</td></tr>
+                        <tr><td>45 – &lt;50</td><td>D</td><td>1.00</td></tr>
+                        <tr><td>&lt;45</td><td>F</td><td>0.00</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================================================
+         INFO
+    =================================================== -->
+
+    <section
+        class="info-box"
+        id="about"
+    >
+
+        <h4>
+            AIUB Academic Information
+        </h4>
+
+        <p>
+            This calculator uses AIUB's current Grading System V3,
+            applicable from Spring 2016–2017 onwards. AIUB's official
+            grading system uses a 4.00 scale. The official minimum
+            graduation CGPA is 2.50 on a 4.00 scale.
+        </p>
+
+    </section>
+
+</main>
+
+<!-- =======================================================
+     FOOTER
+======================================================= -->
+
+<footer>
+
+    <span>
+        © 2026 CGPA Calculator
+    </span>
+
+    <span>
+        Developed by Saif (AIUB)
+    </span>
+
+</footer>
+
+<script src="script.js" defer></script>
+
+</body>
+</html>
