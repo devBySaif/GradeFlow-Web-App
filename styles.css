@@ -198,7 +198,7 @@ nav a.active::after {
 .hero {
     text-align: center;
 
-    padding: 65px 20px 35px;
+    padding: 32px 16px 28px;
 }
 
 .badge {
@@ -383,6 +383,7 @@ nav a.active::after {
 
     align-items: start;
     justify-content: start;
+    padding-left: 18px;
 }
 
 .calculator-grid > .card {
@@ -666,6 +667,7 @@ nav a.active::after {
     display: inline-flex;
 
     align-items: center;
+    justify-content: center;
 
     gap: 6px;
 
@@ -1423,17 +1425,36 @@ footer span:first-child {
     }
 
     .course-row {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
 
-        gap: 9px;
+        gap: 14px;
+
+        padding: 18px;
+        margin-bottom: 16px;
+        border-radius: 18px;
+        background: white;
+        border: 1px solid #e7e9f2;
+        box-shadow: 0 10px 30px rgba(31, 41, 55, 0.06);
     }
 
     .course-row input:first-child {
-        grid-column: span 2;
+        grid-column: span 1;
+    }
+
+    .course-row input,
+    .course-row select,
+    .grade-point {
+        width: 100%;
+    }
+
+    .grade-point {
+        justify-content: flex-start;
+        padding-left: 14px;
     }
 
     .delete-btn {
-        width: 100%;
+        width: 42px;
+        justify-self: end;
     }
 
     .previous-record {
@@ -1479,6 +1500,10 @@ footer span:first-child {
     .reset-btn,
     .actions .add-btn {
         width: 100%;
+    }
+
+    .actions .add-btn {
+        justify-content: center;
     }
 
     footer {
@@ -1565,5 +1590,119 @@ footer span:first-child {
 
     .stats {
         grid-template-columns: 1fr;
+    }
+}
+
+
+@media(max-width: 375px) {
+
+    .navbar {
+        padding: 0 4%;
+    }
+
+    .hero {
+        padding: 24px 12px 22px;
+    }
+
+    .hero h1 {
+        font-size: 28px;
+    }
+
+    .hero-logos {
+        gap: 10px;
+    }
+
+    .hero-logo img {
+        width: 56px;
+        height: 56px;
+    }
+
+    .university-selector {
+        gap: 10px;
+    }
+
+    .uni-btn {
+        min-width: 100px;
+        padding: 10px 12px;
+        font-size: 12px;
+    }
+
+    .grading-title h3 {
+        font-size: 15px;
+    }
+
+    .grading-logos {
+        gap: 10px;
+    }
+
+    .grading-logo-item {
+        padding: 2px 8px;
+    }
+
+    .grading-logo-item img {
+        width: 48px;
+        height: 48px;
+    }
+
+    .grading-logo-item span {
+        font-size: 11px;
+    }
+
+    .grading-panel {
+        padding: 14px;
+    }
+
+    .grading-panel-header {
+        gap: 8px;
+    }
+
+    .grading-panel-header img {
+        width: 34px;
+        height: 34px;
+    }
+
+    .grading-table th,
+    .grading-table td {
+        padding: 8px 5px;
+        font-size: 10px;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .info-box p {
+        font-size: 9px;
+    }
+
+    .info-grid p {
+        padding: 10px;
+    }
+}
+
+
+@media(max-width: 320px) {
+
+    .hero {
+        padding-top: 18px;
+    }
+
+    .hero h1 {
+        font-size: 26px;
+    }
+
+    .hero-logo img {
+        width: 52px;
+        height: 52px;
+    }
+
+    .grading-logo-item img {
+        width: 42px;
+        height: 42px;
+    }
+
+    .uni-btn {
+        min-width: 90px;
+        padding: 8px 10px;
     }
 }
