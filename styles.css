@@ -1374,6 +1374,21 @@ footer span:first-child {
         grid-row: auto;
     }
 
+    .grading-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    .grading-panel {
+        width: 100%;
+    }
+
+    .grading-logos {
+        justify-content: center;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
 }
 
 
@@ -1495,6 +1510,53 @@ footer span:first-child {
 
     .hero h1 {
         font-size: 34px;
+    }
+
+    .hero-logos {
+        gap: 12px;
+    }
+
+    .hero-logo img {
+        width: 72px;
+        height: 72px;
+    }
+
+    .grading-logos {
+        gap: 12px;
+    }
+
+    .grading-logo-item {
+        flex: 1 1 100%;
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .grading-logo-item img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .grading-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .grading-panel {
+        width: 100%;
+    }
+
+    .grading-panel-header {
+        gap: 10px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .grading-panel-header img {
+        width: 42px;
+        height: 42px;
+    }
+
+    .hero .container {
+        width: 98%;
     }
 
     .tabs {
